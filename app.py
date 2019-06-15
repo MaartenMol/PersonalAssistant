@@ -12,6 +12,9 @@ import xmltodict
 import win32com.client as wincl
 speak = wincl.Dispatch("SAPI.SpVoice")
 
+from phue import Bridge
+bridge = Bridge('192.168.0.33')
+
 def listenMic():
     # obtain audio from the microphone
     r = sr.Recognizer()
@@ -38,6 +41,8 @@ def listenMic():
 def lookForAgent(result):
     if "hey NS".lower() in result.lower():
         agent_NS(result)
+    if "hey Philips".lower() in result.lower():
+        agent_Philips(result)
 
 def agent_NS(result):
     if "welke treinen vertrekken" in result.lower():
@@ -93,6 +98,19 @@ def agent_NS(result):
         goUrl = ns_url + '/stationsinformatie/' + station_id + "/" + station_naam
         webbrowser.open(goUrl)
 
+def agent_Philips(result):
+    if "verbind mijn lichten" in result.lower():
+        bridge.connect()
+    
+    if "zet de lichten aan in de" in result.lower():
+        reg_ex = re.search('zet de lichten aan in de (.*)', result.lower())
+        if reg_ex:
+            room = reg_ex.group(1)
+        
+        bridge.set_light(room,'on', True)
+        print("De lichten in de " + room + " staan nu aan!")
+
 #Define main APP
 if __name__ == '__main__':
-    listenMic()
+    while True:
+        listenMic()
