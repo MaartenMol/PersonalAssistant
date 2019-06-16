@@ -1,0 +1,5 @@
+pyown
+google
+phue
+xmltodict
+SpeechRecognition
