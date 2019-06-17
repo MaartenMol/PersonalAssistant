@@ -9,11 +9,11 @@ import re, webbrowser, requests, xmltodict, datetime
 from googlesearch import search
 from pyowm import OWM
 
-import win32com.client as wincl
-speak = wincl.Dispatch("SAPI.SpVoice")
+# import win32com.client as wincl
+# speak = wincl.Dispatch("SAPI.SpVoice")
 
-from phue import Bridge
-bridge = Bridge('192.168.0.33')
+# from phue import Bridge
+# bridge = Bridge('192.168.0.33')
 
 def listenMic():
     # obtain audio from the microphone
@@ -41,8 +41,8 @@ def listenMic():
 def lookForAgent(result):
     if "hey NS".lower() in result.lower():
         agent_NS(result)
-    if "hey Philips".lower() in result.lower():
-        agent_Philips(result)
+    # if "hey Philips".lower() in result.lower():
+    #     agent_Philips(result)
     if "hey Jarvis".lower() in result.lower():
         agent_Jarvis(result)
 
@@ -100,17 +100,17 @@ def agent_NS(result):
         goUrl = ns_url + '/stationsinformatie/' + station_id + "/" + station_naam
         webbrowser.open(goUrl)
 
-def agent_Philips(result):
-    if "verbind mijn lichten" in result.lower():
-        bridge.connect()
+# def agent_Philips(result):
+#     if "verbind mijn lichten" in result.lower():
+#         bridge.connect()
     
-    if "zet de lichten aan in de" in result.lower():
-        reg_ex = re.search('zet de lichten aan in de (.*)', result.lower())
-        if reg_ex:
-            room = reg_ex.group(1)
+#     if "zet de lichten aan in de" in result.lower():
+#         reg_ex = re.search('zet de lichten aan in de (.*)', result.lower())
+#         if reg_ex:
+#             room = reg_ex.group(1)
         
-        bridge.set_light(room,'on', True)
-        print("De lichten in de " + room + " staan nu aan!")
+#         bridge.set_light(room,'on', True)
+#         print("De lichten in de " + room + " staan nu aan!")
 
 def agent_Jarvis(result):
     if "open reddit" in result.lower():
@@ -120,7 +120,7 @@ def agent_Jarvis(result):
             subreddit = reg_ex.group(1)
             url = url + 'r/' + subreddit
         webbrowser.open(url)
-        speak.Speak("Opening Reddit for you!")
+        # speak.Speak("Opening Reddit for you!")
 
     if "zoek op" in result.lower():
         reg_ex = re.search('zoek op (.*)', result)
@@ -129,7 +129,7 @@ def agent_Jarvis(result):
             search = reg_ex.group(1)
             url = url + '/search?q=' + search
         webbrowser.open(url)
-        speak.Speak("Opening Google for you!")
+        # speak.Speak("Opening Google for you!")
 
     if "hoe is het weer" in result.lower():
         reg_ex = re.search('hoe is het weer in (.*)', result)
@@ -142,13 +142,13 @@ def agent_Jarvis(result):
         x = w.get_temperature(unit='celsius')
         result = 'Current weather in %s is %s. The maximum temperature is %0.2f and the minimum temperature is %0.2f degree celcius' % (city, k, x['temp_max'], x['temp_min'])
         print(result)
-        speak.Speak(result)
+        # speak.Speak(result)
 
     if "hoe laat" in result.lower():
         now = datetime.datetime.now()
         time = 'Current time is %d hours %d minutes' % (now.hour, now.minute)
         print(time)
-        speak.Speak(time)
+        # speak.Speak(time)
 
 #Define main APP
 if __name__ == '__main__':

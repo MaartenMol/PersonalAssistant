@@ -1,4 +1,4 @@
-pyown
+pyowm
 google
 phue
 xmltodict
