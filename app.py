@@ -3,14 +3,13 @@
 # Required for MIC: PyAudio
 
 speechLang = "nl-NL"
-
 import speech_recognition as sr
 import re, webbrowser, requests, xmltodict, datetime
 from googlesearch import search
 from pyowm import OWM
 
-# import win32com.client as wincl
-# speak = wincl.Dispatch("SAPI.SpVoice")
+import win32com.client as wincl
+speak = wincl.Dispatch("SAPI.SpVoice")
 
 # from phue import Bridge
 # bridge = Bridge('192.168.0.33')
@@ -39,11 +38,11 @@ def listenMic():
         print("Could not request results from Google Speech Recognition service; {0}".format(e))
 
 def lookForAgent(result):
-    if "hey NS".lower() in result.lower():
+    if "NS".lower() in result.lower():
         agent_NS(result)
     # if "hey Philips".lower() in result.lower():
     #     agent_Philips(result)
-    if "hey Jarvis".lower() in result.lower():
+    if "Jarvis".lower() in result.lower():
         agent_Jarvis(result)
 
 def agent_NS(result):
@@ -114,10 +113,10 @@ def agent_NS(result):
 
 def agent_Jarvis(result):
     if "open reddit" in result.lower():
-        reg_ex = re.search('open reddit (.*)', result)
+        reg_ex = re.search('open reddit (.*)', result.lower())
         url = 'https://www.reddit.com/'
         if reg_ex:
-            subreddit = reg_ex.group(1)
+            subreddit = reg_ex.group(1).lower()
             url = url + 'r/' + subreddit
         webbrowser.open(url)
         # speak.Speak("Opening Reddit for you!")
@@ -132,9 +131,9 @@ def agent_Jarvis(result):
         # speak.Speak("Opening Google for you!")
 
     if "hoe is het weer" in result.lower():
-        reg_ex = re.search('hoe is het weer in (.*)', result)
+        reg_ex = re.search('hoe is het weer in (.*)', result.lower())
         if reg_ex:
-            city= reg_ex.group(1)
+            city = reg_ex.group(1)
         owm = OWM(API_key='ab0d5e80e8dafb2cb81fa9e82431c1fa')
         obs = owm.weather_at_place(city)
         w = obs.get_weather()
@@ -142,13 +141,13 @@ def agent_Jarvis(result):
         x = w.get_temperature(unit='celsius')
         result = 'Current weather in %s is %s. The maximum temperature is %0.2f and the minimum temperature is %0.2f degree celcius' % (city, k, x['temp_max'], x['temp_min'])
         print(result)
-        # speak.Speak(result)
+        speak.Speak(result)
 
     if "hoe laat" in result.lower():
         now = datetime.datetime.now()
         time = 'Current time is %d hours %d minutes' % (now.hour, now.minute)
         print(time)
-        # speak.Speak(time)
+        speak.Speak(time)
 
 #Define main APP
 if __name__ == '__main__':
