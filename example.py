@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import speech_recognition as sr
 
 speechLang = "nl-NL"
@@ -37,10 +38,3 @@ def agent_Jarvis(result):
 if __name__ == '__main__':
     while True:
         listenMic()
-
-import rquests
-
-API_ENDPOINT = "http://test-api.nl/api/getStatus"
-
-r = requests.get(url = API_ENDPOINT) 
-response = json.loads(r.text)

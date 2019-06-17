@@ -38,7 +38,7 @@ def listenMic():
         print("Could not request results from Google Speech Recognition service; {0}".format(e))
 
 def lookForAgent(result):
-    if "NS".lower() in result.lower():
+    if "Conducteur".lower() in result.lower():
         agent_NS(result)
     # if "hey Philips".lower() in result.lower():
     #     agent_Philips(result)
@@ -141,7 +141,7 @@ def agent_Jarvis(result):
         x = w.get_temperature(unit='celsius')
         result = 'Current weather in %s is %s. The maximum temperature is %0.2f and the minimum temperature is %0.2f degree celcius' % (city, k, x['temp_max'], x['temp_min'])
         print(result)
-        speak.Speak(result)
+        # speak.Speak(result)
 
     if "hoe laat" in result.lower():
         now = datetime.datetime.now()
